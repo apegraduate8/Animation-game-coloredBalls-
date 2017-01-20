@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style>
+	html, body {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+	}
+	span {
+		font-size: 1.5em;
+	}
+	.winner {
+		width: 100%;
+		height: 100%;
+		display: none;
+		position: fixed;
+		background-color: black;
+		text-align: center;
+		z-index: 100;
+		transition: display 2s;
+	}
+
+	#Container {
+		width: 95%;
+		height: 70%;
+		position:relative;
+		background:black;
+		overflow-y: hidden;
+		margin: 0 auto;
+		}
+		#Animation {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			position: relative;
+			left: -4%;
+			background-color: blue;
+			cursor: pointer;
+		}
+		#Animation1 {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			position: relative;
+			top: 35%;
+			left: -4%;
+			background-color: red;
+			cursor: pointer;
+		}
+		#Animation2 {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			position: relative;
+			top: 20%;
+			left: -4%;
+			background-color: pink;
+			cursor: pointer;
+		}
+		#Animation3 {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			position: relative;
+			top: 50%;
+			left: -4%;
+			background-color: pink;
+			cursor: pointer;
+		}
+		#Animation4 {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			position: relative;
+			top: 65%;
+			left: -4%;
+			background-color: pink;
+			cursor: pointer;
+		}
+		#Animation5 {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			position: relative;
+			top: 52%;
+			left: -4%;
+			background-color: cornflowerblue;
+			cursor: pointer;
+		}
+
+		button {
+			padding: 1%;
+    		color: white;
+    		background: red;
+    		margin-top: 1%;
+    		margin-left: 3%;
+		}
+
+		table {
+			margin: 0 auto;
+			clear: both;
+		}
+
+		th {
+			text-align: center;
+		}
+
+		td {
+			font-size: 30px;
+			border: 1px solid black;
+			height: 20px;
+		}
+	</style>
+</head>
+<body>
+<div class="winner">
+	<h1 style="font-size: 3em;color: red;margin-top: 20%;">YOU WIN!!</h1>
+	<h2 style="text-transform: capitalize;font-size: 2em; color: red;">refresh to play again</h2>
+</div>
+
+<h1 style="display: inline-block;margin-left: 35%;margin-top:5px;text-transform: uppercase;"><span style="color: orange">c</span> <span style="color: blue;">o</span> <span style="color: red">l</span> <span style="color: green">o</span> <span style="color: purple">r</span>ed BALLS</h1>
+
+<div id="Container">
+	<div id="Animation" onclick="point('blue')"></div>
+	<div id="Animation1" onclick="point('red')"></div>
+	<div id="Animation2" onclick="point('pink')"></div>
+
+	<div id="Animation3" onclick="point('pink')"></div>
+	<div id="Animation4" onclick="point('pink')"></div>
+	<div id="Animation5" onclick="point('blue')"></div>
+
+</div>
+<button onclick="move('Animation', 2), move('Animation1', 1), move('Animation2', 1.9), move('Animation3', 1.5), move('Animation4', 3), move('Animation5', 1.8)" >click me</button>
+<button onclick="stop()">stop</button>
+<p style="text-transform: capitalize;margin-left: 50px;margin-bottom: 0;font-size: 1.2em;">reshesh after you press stop. <br> ONLY "CLICK ME" ONCE!!!<br>warning: may trigger epilectic shock </p>
+<p style="font-size:20px;text-transform: capitalize;margin-right: 50px;margin-bottom: 0;margin-top:-25px;float: right;">click the balls to get a "*" <br> get 7 and you win!</p>
+
+
+
+
+<table style="width: 40%;position: absolute;bottom: 10%;left: 30%;">
+	<tr>
+		<th colspan="3">score</th>
+	</tr>
+	<tr>
+		<th colspan="1" >blue</th>
+		<th colspan="1">red</th>
+		<th colspan="1">pink</th>
+	</tr>
+	<tr>
+		<td id="blueScore"></td>
+		<td id="redScore"></td>
+		<td id="pinkScore"></td>
+
+
+	</tr>
+
+</table>
+
+
+
+
+<script type="text/javascript">
+
+var w = window.innerWidth;
+var h = window.innerHeight;
+var con = document.getElementById('Container');
+
+
+///////HTML Elements
+
+
+
+
+//var conW = dimensions.width;	//1296
+//var conH = dimensions.height; //380
+var blank = true;
+
+function move(n, a) {
+	
+	var elem = document.getElementById(n);
+	var pos = -10;
+	
+	
+	var id = setInterval(frame, 1);
+
+	function frame() {
+		var dimensions = con.getBoundingClientRect();
+		var conW = dimensions.width;	//1296
+		var conH = dimensions.height;
+		if(pos > conW){
+			console.log(conW);
+			pos = -10;
+	   }else  {
+	   		pos+=a;
+	   		elem.style.top = (pos/6) + 'px';
+	   		elem.style.left = pos + 'px';
+	   		console.log(conW)
+		}
+		if(blank == false){clearInterval(id)};
+	}
+	return blank ;
+}
+
+var scorebox = document.querySelector("table");
+var tracker = [];
+var winner = document.querySelector(".winner");
+
+function point(c) {
+	
+	if(tracker.length > 5){
+		tracker = [];
+		blank = false;
+		winner.style.display = "block"
+		return blank;
+
+
+	};
+	var bod = document.body;
+	var col = scorebox.querySelector('#'+ c +'Score')
+	//console.log(col)
+	//var blue = scorebox.querySelector('#blueScore');
+	//var red = scorebox.querySelector('#redScore');
+	//var pink = scorebox.querySelector('#pinkScore');
+	if(c) {
+		aster = document.createTextNode("*");
+		col.appendChild(aster);
+		bod.style.backgroundColor = c;
+		tracker.push(col);
+	}
+	console.log(tracker);
+
+
+}
+
+
+function stop() {
+	blank = false;
+	return blank;
+}
+
+/*
+var ant = ["aba", "bbb", "bab"];
+var tony = ['aba', 'bbb', 'bab'];
+	function stringsRearrangement(inputArray) {
+    //
+     var k = inputArray[2];//"bab"
+    var a = k[2];//b
+    //var b = k[1]
+    //var j = k.replace(a,"")
+
+
+    for(var i = 0;i < inputArray.length; i++) {
+        if(inputArray[i] == k){
+            var b = k.slice(0, 2);
+            inputArray[2] = b; 
+            
+        }
+
+    }
+   all = [k, a, j, b, inputArray];
+   return all 
+}
+console.log(stringsRearrangement(ant))
+
+*/
+</script>
+</body>
+</html>
